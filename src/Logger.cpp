@@ -11,7 +11,7 @@ void Logger::waitAllSerials() {
 	}
 }
 
-void Logger::begin(SerialStream stream, HardwareSerial& serial, uint32_t baudrate, byte parity) {
+void Logger::begin(SerialStream stream, HardwareSerial &serial, uint32_t baudrate, byte parity) {
 	_serials[(uint8_t)stream] = &serial;
 	_serials[(uint8_t)stream]->begin(baudrate, parity);
 	_loglevels[(uint8_t)stream] = DEBUG;
@@ -30,6 +30,10 @@ void Logger::setState(SerialStream stream, bool enabled) {
 	_states[(uint8_t)stream] = enabled ? Enabled : Disabled;
 }
 
+void Logger::echo(String text) {
+	write(text, ECHO);
+}
+
 void Logger::debug(String text) {
 	write(text, DEBUG);
 }
@@ -38,7 +42,7 @@ void Logger::info(String text) {
 	write(text, INFO);
 }
 
-void Logger::warning(String text) {
+void Logger::warn(String text) {
 	write(text, WARNING);
 }
 
@@ -46,7 +50,7 @@ void Logger::error(String text) {
 	write(text, ERROR);
 }
 
-void Logger::logTelemetry(const telemetry& t) {
+void Logger::logTelemetry(const telemetry &t) {
 	/*
 	example output:
 	[12345] 1-INFO: GPS: lat=0.000000, lon=0.000000, alt=0.00, valid=0
@@ -62,6 +66,7 @@ void Logger::logTelemetry(const telemetry& t) {
 	info(String(F("MPU6050: ax=")) + String(t.accel.x, 2) + F(", ay=") + String(t.accel.y, 2) + F(", az=") + String(t.accel.z, 2) + F(", gx=") + String(t.gyro.x, 2) + F(", gy=") + String(t.gyro.y, 2) + F(", gz=") + String(t.gyro.z, 2) + F(", temp=") + String(t.temp_mpu, 2));
 	info(String(F("HMC5883: mx=")) + String(t.mag.x, 4) + F(", my=") + String(t.mag.y, 4) + F(", mz=") + String(t.mag.z, 4));
 	info(String(F("MS5611: temp=")) + String(t.temp_baro, 2) + F(", pressure=") + String(t.pressure, 2) + F(", altitude=") + String(t.altitude_baro, 2));
+	info(String(F("Heaters: motor_on=")) + String(t.is_heater_motor_on) + F(", accum_on=") + String(t.is_heater_accum_on));
 }
 
 void Logger::write(String text, LoggingLevel loglevel) {
@@ -81,6 +86,7 @@ void Logger::write(String text, LoggingLevel loglevel, SerialStream stream) {
 
 String Logger::logLevelToString(LoggingLevel loglevel) {
 	switch (loglevel) {
+		case ECHO: return F("ECHO");
 		case DEBUG: return F("DEBUG");
 		case INFO: return F("INFO");
 		case WARNING: return F("WARNING");

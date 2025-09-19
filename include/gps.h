@@ -8,13 +8,14 @@ struct GPSCoord {
 	double lat, lng, height;
 	bool valid = true;
 	GPSCoord() : lat(0.0), lng(0.0), height(0.0), valid(false) {}
-	GPSCoord(double lat, double lng) : lat(lat), lng(lng), height(0.0) {}
-	GPSCoord(double lat, double lng, double height) : lat(lat), lng(lng), height(height) {}
+	GPSCoord(double lat, double lng, bool valid = false) : lat(lat), lng(lng), height(0.0), valid(valid) {}
+	GPSCoord(double lat, double lng, double height, bool valid = false) : lat(lat), lng(lng), height(height), valid(valid) {}
 
 	inline GPSCoord &operator=(const GPSCoord &other) {
 		lat = other.lat;
 		lng = other.lng;
 		height = other.height;
+		valid = other.valid;
 		return *this;
 	}
 };
@@ -28,7 +29,7 @@ public:
 	GPSData() : coord(GPSCoord()) {}
 
 	GPSCoord getCoord() const { return coord; }
-	static void setBaseCoord(GPSCoord base, double height);
+	static void setBaseCoord(GPSCoord base, double height = 0.0);
 	double distanceToBase();
 	double courseToBase();
 

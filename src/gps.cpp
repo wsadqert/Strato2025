@@ -2,7 +2,7 @@
 
 GPSCoord GPSData::baseCoord;
 
-void GPSData::setBaseCoord(GPSCoord base, double height = 0.0) {
+void GPSData::setBaseCoord(GPSCoord base, double height) {
 	double h = base.height;
 
 	if (base.height == 0.0)
@@ -23,7 +23,7 @@ double GPSData::courseToBase() {
 GPSData GPSData::obtainGPSData(TinyGPSPlus gps) {
 	// Obtain GPS data from the TinyGPSPlus object
 	if (gps.location.isUpdated()) {
-		GPSCoord newCoord(gps.location.lat(), gps.location.lng(), gps.altitude.meters());
+		GPSCoord newCoord(gps.location.lat(), gps.location.lng(), gps.altitude.meters(), gps.location.isValid());
 		return GPSData(newCoord);
 	}
 	return GPSData();

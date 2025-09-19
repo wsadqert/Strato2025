@@ -9,13 +9,14 @@ public:
 	static constexpr size_t N = 3;
 public:
 	enum LoggingLevel {
-		DEBUG = 0,
+		ECHO = 0,
+		DEBUG,
 		INFO,
 		WARNING,
 		ERROR
 	};
 	enum SerialStream {
-		Radio,
+		LoRa,
 		SD,
 		USB
 	};
@@ -29,9 +30,10 @@ public:
 	void setLogLevel(SerialStream stream, LoggingLevel loglevel);
 	void setState(SerialStream stream, State state);
 	void setState(SerialStream stream, bool enabled);
+	void echo(String text);
 	void debug(String text);
 	void info(String text);
-	void warning(String text);
+	void warn(String text);
 	void error(String text);
 	void logTelemetry(const telemetry& t);
 	void write(String text, LoggingLevel loglevel);

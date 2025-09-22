@@ -1,20 +1,20 @@
 #include <Arduino.h>
+
 #include "GPIOTool.h"
 
-GPIOTool::GPIOTool(uint16_t _pin) : pin(_pin) {
-	if (pin == 0) return; // no pin set
-	
-	pinMode(pin, OUTPUT);
-	digitalWrite(pin, LOW);
+GPIOTool::GPIOTool(uint16_t pin, bool inverted) : _pin(pin), _inverted(inverted) {
+	if (_pin == 0) return; // no pin set
+	pinMode(_pin, OUTPUT);
+	digitalWrite(_pin, _inverted ? HIGH : LOW);
 }
 
 void GPIOTool::on() {
-	digitalWrite(pin, HIGH);
+	digitalWrite(_pin, _inverted ? LOW : HIGH);
 	state = true;
 }
 
 void GPIOTool::off() {
-	digitalWrite(pin, LOW);
+	digitalWrite(_pin, _inverted ? HIGH : LOW);
 	state = false;
 }
 

@@ -13,10 +13,10 @@ void TempControl::apply(GPIOTool &heater, float currentTemp, float minTemp, Stri
 	if (newState != prevState) {
 		if (newState) {
 			heater.on();
-			_logger.warn(controlName + F(" turned ON"));
+			_logger.warn(controlName + F(" heater turned ON"));
 		} else {
 			heater.off();
-			_logger.warn(controlName + F(" turned OFF"));
+			_logger.warn(controlName + F(" heater turned OFF"));
 		}
 		prevState = newState;
 	}

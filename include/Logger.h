@@ -7,7 +7,7 @@
 class Logger {
 public:
 	static constexpr size_t N = 3;
-public:
+
 	enum LoggingLevel {
 		ECHO = 0,
 		DEBUG,
@@ -44,6 +44,7 @@ private:
 	HardwareSerial* _serials[N];
 	LoggingLevel _loglevels[N];
     State _states[N];
+	static String formatEntry(String text, LoggingLevel loglevel);
 	static String logLevelToString(LoggingLevel loglevel);
 };
 
